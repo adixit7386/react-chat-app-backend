@@ -8,6 +8,9 @@ class customErrorHandler extends Error {
   static alreadyExist(message) {
     return new customErrorHandler(409, message);
   }
+  static userNotFound(message) {
+    return new customErrorHandler(409, message);
+  }
   static incompleteData(message) {
     return new customErrorHandler(405, message);
   }
