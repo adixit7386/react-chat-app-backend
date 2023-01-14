@@ -4,7 +4,9 @@ class customErrorHandler extends Error {
     this.status = statusCode;
     this.message = msg;
   }
-
+  static routeNotFound(message) {
+    return new customErrorHandler(404, message);
+  }
   static alreadyExist(message) {
     return new customErrorHandler(409, message);
   }
