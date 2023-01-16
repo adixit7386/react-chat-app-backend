@@ -16,6 +16,9 @@ class customErrorHandler extends Error {
   static incompleteData(message) {
     return new customErrorHandler(405, message);
   }
+  static noUserId(message) {
+    return new customErrorHandler(409, message);
+  }
   static wrongCredentials(message) {
     return new customErrorHandler(409, message);
   }
