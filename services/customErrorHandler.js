@@ -4,6 +4,9 @@ class customErrorHandler extends Error {
     this.status = statusCode;
     this.message = msg;
   }
+  static inCompleteContent(message) {
+    return new customErrorHandler(400, message);
+  }
   static routeNotFound(message) {
     return new customErrorHandler(404, message);
   }
