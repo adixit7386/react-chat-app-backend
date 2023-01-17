@@ -1,21 +1,14 @@
 const Chat = require("../models/Chat");
 const User = require("../models/User");
 const Message = require("../models/Message");
-const customErrorHandler = require("../services/customErrorHandler");
-const AddToGroupControllers = async (req, res, next) => {
+
+const RemoveFromGroupControllers = async (req, res, next) => {
   const { userId, ChatId } = req.body;
 
   try {
-    const chat = await Chat.find({
-      $and: [{ _id: { $eq: ChatId } }, { users: { $in: userId } }],
-    });
-
-    if (chat) {
-      return next(customErrorHandler.alreadyExist("This user already exists"));
-    }
     const updatedChat = await Chat.findByIdAndUpdate(
       ChatId,
-      { $push: { users: userId } },
+      { $pull: { users: userId } },
       { new: true }
     )
       .populate("users", "-password")
@@ -25,4 +18,4 @@ const AddToGroupControllers = async (req, res, next) => {
     return next(error);
   }
 };
-module.exports = AddToGroupControllers;
+module.exports = RemoveFromGroupControllers;
