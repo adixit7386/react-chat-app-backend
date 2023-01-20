@@ -25,14 +25,8 @@ const AccessChatControllers = async (req, res, next) => {
   if (isChat.length > 0) {
     return res.json(isChat).status(201);
   } else {
-    let name;
-    try {
-      name = await User.findOne({ _id: userId });
-    } catch (error) {
-      return next(error);
-    }
     var ChatData = {
-      ChatName: name.name,
+      ChatName: "sender",
       isGroupChat: false,
       users: [userId, req.user._id],
     };
