@@ -11,7 +11,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 connect();
-
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
 

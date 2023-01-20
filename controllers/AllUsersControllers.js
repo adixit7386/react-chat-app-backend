@@ -12,6 +12,7 @@ const AllUsers = async (req, res, next) => {
   try {
     const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
     // const users = await User.find(keyword);
+
     res.json(users).status(201);
   } catch (err) {
     return next(err);

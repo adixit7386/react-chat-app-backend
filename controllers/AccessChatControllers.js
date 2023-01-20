@@ -25,8 +25,14 @@ const AccessChatControllers = async (req, res, next) => {
   if (isChat.length > 0) {
     return res.json(isChat).status(201);
   } else {
+    let name;
+    try {
+      name = await User.findOne({ _id: userId });
+    } catch (error) {
+      return next(error);
+    }
     var ChatData = {
-      ChatName: "sender",
+      ChatName: name.name,
       isGroupChat: false,
       users: [userId, req.user._id],
     };
@@ -37,7 +43,6 @@ const AccessChatControllers = async (req, res, next) => {
         "users",
         "-password"
       );
-
       return res.json(FullChat).status(201);
     } catch (err) {
       return next(err);
