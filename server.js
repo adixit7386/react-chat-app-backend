@@ -6,6 +6,7 @@ const connect = require("./config/mongodb");
 const userRouter = require("./router/userRouter");
 const chatRouter = require("./router/chatRouter.js");
 const ErrorHandler = require("./middleware/errorHandler");
+const messageRouter = require("./router/messageRouter");
 dotenv.config();
 const app = express();
 app.use(cors());
@@ -13,6 +14,7 @@ app.use(express.json());
 connect();
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
+app.use("/api/message", messageRouter);
 
 app.use(ErrorHandler);
 
