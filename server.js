@@ -19,6 +19,16 @@ app.use("/api/message", messageRouter);
 app.use(ErrorHandler);
 
 const APP_PORT = process.env.APP_PORT || 3000;
-app.listen(5000, () => {
+const server = app.listen(5000, () => {
   console.log("server is running on the port ", APP_PORT);
+});
+
+const io = require("socket.io")(server, {
+  pingTimeout: 60000,
+  cors: {
+    origin: "http://localhost:3000/",
+  },
+});
+io.on("connection", (socket) => {
+  console.log("connected to socket.io");
 });

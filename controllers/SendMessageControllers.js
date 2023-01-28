@@ -4,7 +4,7 @@ const User = require("../models/User");
 const Chat = require("../models/Chat");
 const SendMessageControllers = async (req, res, next) => {
   const { message, chatId } = req.body;
-  console.log(message, chatId);
+
   if (!message || !chatId) {
     return next(customErrorHandler.inCompleteContent("send sufficient data"));
   }

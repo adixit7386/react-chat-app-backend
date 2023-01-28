@@ -17,7 +17,7 @@ const loginController = async (req, res, next) => {
         let { password, ...others } = user._doc;
         others.accessToken = generateToken(others._id, false);
 
-        res.status(201).json(user);
+        res.status(201).json(others);
       } else {
         return next(customErrorHandler.wrongCredentials("password is wrong"));
       }
