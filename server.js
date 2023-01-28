@@ -19,16 +19,49 @@ app.use("/api/message", messageRouter);
 app.use(ErrorHandler);
 
 const APP_PORT = process.env.APP_PORT || 3000;
-const server = app.listen(5000, () => {
-  console.log("server is running on the port ", APP_PORT);
-});
+const server = app.listen(
+  5000,
+  console.log("server is running on the port ", APP_PORT)
+);
 
 const io = require("socket.io")(server, {
   pingTimeout: 60000,
   cors: {
-    origin: "http://localhost:3000/",
+    origin: "http://localhost:3000",
   },
 });
 io.on("connection", (socket) => {
-  console.log("connected to socket.io");
+  socket.on("setup", (userData) => {
+    socket.join(userData._id);
+    console.log(userData);
+    socket.emit("connected");
+  });
+
+  socket.on("join chat", (room) => {
+    socket.join(room);
+    socket.emit("connected");
+    console.log("User joined room: ", room);
+  });
+  socket.on("typing", (room) => {
+    socket.in(room).emit("typing");
+  });
+  socket.on("stop typing", (room) => {
+    socket.in(room).emit("stop typing");
+  });
+  socket.on("new message", (newMessageReceived) => {
+    console.log(newMessageReceived);
+    var chat = newMessageReceived.Chat;
+    if (!chat.users) {
+      return console.log("chat.users is not defined");
+    }
+    chat.users.forEach((user) => {
+      if (user._id == newMessageReceived.sender._id) {
+        return;
+      }
+      socket.in(user._id).emit("message received", newMessageReceived);
+    });
+  });
+  socket.off("setup", () => {
+    socket.leave(userData._id);
+  });
 });
