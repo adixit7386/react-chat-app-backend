@@ -41,7 +41,6 @@ io.on("connection", (socket) => {
     socket.join(room);
   });
   socket.on("typing", (room) => {
-    console.log("hello", room);
     socket.in(room).emit("typing", room);
   });
   socket.on("stop typing", (room) => {
@@ -57,10 +56,13 @@ io.on("connection", (socket) => {
       if (user._id == newMessageReceived.sender._id) {
         return;
       }
+
       socket.in(user._id).emit("message received", newMessageReceived);
+      console.log(newMessageReceived.content);
     });
   });
   socket.off("setup", () => {
+    socket.in(user._id).emit("reconnect");
     socket.leave(userData._id);
   });
 });
