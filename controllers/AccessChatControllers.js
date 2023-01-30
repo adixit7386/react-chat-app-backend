@@ -3,6 +3,7 @@ const User = require("../models/User");
 const Message = require("../models/Message");
 const AccessChatControllers = async (req, res, next) => {
   const { userId } = req.body;
+
   if (!userId) {
     return next(customErrorHandler.noUserId("user id not sent"));
   }
@@ -22,7 +23,7 @@ const AccessChatControllers = async (req, res, next) => {
     select: "name pic email",
   });
 
-  if (isChat.length > 0) {
+  if (!isChat) {
     return res.json(isChat).status(201);
   } else {
     var ChatData = {
