@@ -58,7 +58,6 @@ io.on("connection", (socket) => {
       }
 
       socket.in(user._id).emit("message received", newMessageReceived);
-      console.log(newMessageReceived.content);
     });
   });
   socket.off("setup", () => {

@@ -7,7 +7,7 @@ const AccessChatControllers = async (req, res, next) => {
     return next(customErrorHandler.noUserId("user id not sent"));
   }
 
-  var isChat = await Chat.find({
+  var isChat = await Chat.findOne({
     isGroupChat: false,
     $and: [
       { users: { $elemMatch: { $eq: req.user._id } } },

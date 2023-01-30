@@ -26,11 +26,11 @@ const CreateGroupChatControllers = async (req, res, next) => {
       groupAdmin: req.user._id,
     });
     var groupChat = await GroupChat.save();
-    const FullChat = await Chat.findOne({ _id: groupChat._id })
+    groupChat = await Chat.findOne({ _id: groupChat._id })
       .populate("users", "-password")
       .populate("groupAdmin", "-password");
 
-    res.json(FullChat).status(201);
+    res.json(groupChat).status(201);
   } catch (err) {
     return next(err);
   }
