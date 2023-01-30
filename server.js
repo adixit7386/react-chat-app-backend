@@ -12,6 +12,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 connect();
+app.get("/", (req, res) => {
+  console.log("hello");
+  res.json("backend is running");
+});
 app.use("/api/user", userRouter);
 app.use("/api/chat", chatRouter);
 app.use("/api/message", messageRouter);
