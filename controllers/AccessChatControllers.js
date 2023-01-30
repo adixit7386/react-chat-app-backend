@@ -18,12 +18,11 @@ const AccessChatControllers = async (req, res, next) => {
     .populate("users", "-password")
     .populate("latestMessage");
 
-  isChat = await User.populate(isChat, {
-    path: "latestMessage.sender",
-    select: "name pic email",
-  });
-
-  if (!isChat) {
+  if (isChat != null) {
+    isChat = await User.populate(isChat, {
+      path: "latestMessage.sender",
+      select: "name pic email",
+    });
     return res.json(isChat).status(201);
   } else {
     var ChatData = {
